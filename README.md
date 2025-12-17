@@ -1,5 +1,3 @@
-Arij Belmabrouk – \[GitHub](https://github.com/arijbelmabrouk)
-
 # Convex Optimization for Churn Classification
 
 Implements regularized logistic loss minimization across solvers: L-BFGS (quasi-Newton), SGD (stochastic gradient), Coordinate Descent (liblinear L1 sparsity). Complements tree ensembles with convergence analysis.
@@ -22,12 +20,18 @@ Bayesian Optimization (Gaussian Process surrogate) vs Grid Search: 67 evaluation
 ## Project Structure
 
 ChurnPrediction/
-├── data_preparation_VF01.ipynb # Preprocess → Optimize → Evaluate
+
+├── data_preparation_VF01.ipynb
+
 ├── app.py # Prediction API
+
 ├── dash.py # Visualization dashboard
+
 ├── requirements.txt
-├── results/ # Loss curves, convergence plots
-└── models/ # Trained weights (gitignore)
+
+├── results/
+
+└── models/
 
 text
 
