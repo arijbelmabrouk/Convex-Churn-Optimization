@@ -1,75 +1,74 @@
-# Convex Optimization for Churn Classification
+# Convex Optimization for Subscriber Churn Classification
+### Empirical Analysis of Numerical Solvers and Production Pipeline Engineering
 
-Implements regularized logistic loss minimization across solvers: L-BFGS (quasi-Newton), SGD (stochastic gradient), Coordinate Descent (liblinear L1 sparsity). Complements tree ensembles with convergence analysis.
+## Project Overview
+This repository investigates the application of **Regularized Logistic Regression** for predicting customer churn. Moving beyond standard heuristic models, this project focuses on the **mathematical rigor of convex loss surfaces**, comparing the efficiency and convergence of different numerical solvers (L-BFGS vs. SAGA) to achieve a "Glass-Box" model that balances predictive power with high interpretability.
 
-## Mathematical Formulation
+The project is architected using a **Unified Pipeline** approach, ensuring that data preprocessing, feature engineering, and inference are encapsulated in a single, atomic artifact for production reliability.
 
-$$\min_{\mathbf{w}} \mathcal{L}(\mathbf{w}) = -\frac{1}{N}\sum_{i=1}^N \left[ y_i \log \sigma(\mathbf{x}_i^T\mathbf{w}) + (1-y_i)\log(1-\sigma(\mathbf{x}_i^T\mathbf{w})) \right] + \lambda \|\mathbf{w}\|_p$$
+---
 
-where $\sigma(z) = (1+e^{-z})^{-1}$, $p\in\{1,2\}$ controls Lasso/Ridge regularization.
+## Mathematical Framework
+The core objective is the minimization of the L2-regularized log-loss function:
 
-**Solver Trade-offs:**
-- L-BFGS: $O(n)$ Hessian approximation, fastest smooth convergence
-- SGD: Scales to $10^6$ samples, requires momentum for stability  
-- Coordinate Descent: Native L1 sparsity, linear convergence guarantees
+$$
+\min_{w} \mathcal{L}(w) = -\frac{1}{N} \sum_{i=1}^N \left[ y_i \log(\sigma(x_i^T w)) + (1-y_i) \log(1-\sigma(x_i^T w)) \right] + \lambda \|w\|_2^2
+$$
 
-## Hyperparameter Optimization
+This implementation specifically evaluates the performance of:
+* **L-BFGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno):** A quasi-Newton method that approximates the Hessian to achieve second-order convergence.
+* **SAGA:** A variant of the Stochastic Average Gradient descent that supports non-smooth functional components (L1 penalty) and offers a linear convergence rate.
 
-Bayesian Optimization (Gaussian Process surrogate) vs Grid Search: 67 evaluations vs $10^4$ grid points.
+---
 
-## Project Structure
+## Technical Architecture
+The system is built on three pillars of Machine Learning Engineering:
 
-ChurnPrediction/
+### 1. Robust Feature Engineering
+* **Pipeline Encapsulation:** All transformations (Scaling, One-Hot Encoding) are strictly handled within a `ColumnTransformer` to prevent **Data Leakage**.
+* **Production Safety:** Categorical encoders are configured with `handle_unknown='ignore'` to ensure API stability during novel real-world inputs.
 
-├── data_preparation_VF01.ipynb
+### 2. High-Performance Serving (`api.py`)
+* Powered by **FastAPI**, providing an asynchronous RESTful endpoint for low-latency churn scoring.
+* Utilizes a single-artifact deployment model (`churn_pipeline.joblib`) to ensure **Training-Serving Alignment**.
 
-├── app.py # Prediction API
+### 3. Business Intelligence Layer (`dashboard.py`)
+* An interactive **Streamlit** dashboard designed for stakeholders to simulate customer scenarios and visualize risk probabilities in real-time.
 
-├── dash.py # Visualization dashboard
+---
 
-├── requirements.txt
+## Repository Structure
+├── api.py # FastAPI Inference Service
+├── dashboard.py # Streamlit Business Dashboard
+├── 01_Model_Training.ipynb # Research & Solver Benchmarking
+├── requirements.txt # Production Dependencies
 
-├── results/
+yaml
+Copy code
 
-└── models/
+---
 
-text
+# Getting Started
 
-## Dataset
+## 1. Installation
+bash
+pip install -r requirements.txt
+2. Training and Solver Analysis
+Run the core research notebook to generate convergence plots and export the model:
 
+bash
+Copy code
+# Open 01_Model_Training.ipynb in Jupyter
+3. Deployment
+Start the API:
 
-Dataset is not included. Use your own CSV with customer features and a churn label.
+bash
+Copy code
+uvicorn api:app --reload
+Start the Dashboard:
 
-
-
-## Contributing
-
-
-
-1\. Fork the repo
-
-2\. Create a branch: `git checkout -b feature/AmazingFeature`
-
-3\. Commit: `git commit -m "Add feature"`
-
-4\. Push: `git push origin feature/AmazingFeature`
-
-5\. Open a Pull Request
-
-
-
-## License
-
-
-
-MIT License. See `LICENSE` for details.
-
-
-
-## Author
-
-
-
-Arij Belmabrouk – \[GitHub](https://github.com/arijbelmabrouk)
-
-
+bash
+Copy code
+streamlit run dashboard.py
+Author: Arij Belmabrouk
+Focus: Numerical Optimization | Machine Learning Engineering | Systems Architecture
