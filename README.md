@@ -47,32 +47,28 @@ The system is built on three pillars of Machine Learning Engineering:
 
 ├── requirements.txt # Production Dependencies
 
-yaml
-Copy code
 
 ---
 
 # Getting Started
 
 ### 1. Installation
-bash
+
 pip install -r requirements.txt
+
 ###2. Training and Solver Analysis
 Run the core research notebook to generate convergence plots and export the model:
 
-bash
-Copy code
 Open 01_Model_Training.ipynb in Jupyter
+
 ###3. Deployment
+
 Start the API:
-
-bash
-Copy code
 uvicorn api:app --reload
-Start the Dashboard:
 
-bash
-Copy code
+Start the Dashboard:
 streamlit run dashboard.py
+
 Author: Arij Belmabrouk
+
 Focus: Numerical Optimization | Machine Learning Engineering | Systems Architecture
