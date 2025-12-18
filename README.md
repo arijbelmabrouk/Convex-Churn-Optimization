@@ -38,9 +38,13 @@ The system is built on three pillars of Machine Learning Engineering:
 ---
 
 ## Repository Structure
+
 ├── api.py # FastAPI Inference Service
+
 ├── dashboard.py # Streamlit Business Dashboard
+
 ├── 01_Model_Training.ipynb # Research & Solver Benchmarking
+
 ├── requirements.txt # Production Dependencies
 
 yaml
@@ -50,16 +54,16 @@ Copy code
 
 # Getting Started
 
-## 1. Installation
+### 1. Installation
 bash
 pip install -r requirements.txt
-2. Training and Solver Analysis
+###2. Training and Solver Analysis
 Run the core research notebook to generate convergence plots and export the model:
 
 bash
 Copy code
-# Open 01_Model_Training.ipynb in Jupyter
-3. Deployment
+Open 01_Model_Training.ipynb in Jupyter
+###3. Deployment
 Start the API:
 
 bash
