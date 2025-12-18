@@ -56,12 +56,12 @@ The system is built on three pillars of Machine Learning Engineering:
 
 pip install -r requirements.txt
 
-###2. Training and Solver Analysis
+### 2. Training and Solver Analysis
 Run the core research notebook to generate convergence plots and export the model:
 
 Open 01_Model_Training.ipynb in Jupyter
 
-###3. Deployment
+### 3. Deployment
 
 Start the API:
 uvicorn api:app --reload
